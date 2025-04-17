@@ -1,0 +1,37 @@
+<div class="role-management-container">
+    <h2>Gestión de Roles</h2>
+    
+    <button class="add-btn" (click)="abrirModal()">Agregar Rol</button>
+  
+    <table class="role-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre del Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rol of roles">
+          <td>{{ rol.id }}</td>
+          <td>{{ rol.name }}</td>
+          <td class="actions">
+            <button class="edit-btn" (click)="abrirModal(rol)">Editar</button>
+            <button class="delete-btn" (click)="eliminarRol(rol.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Modal para Agregar/Editar Rol -->
+  <div class="modal" *ngIf="modalAbierto">
+    <div class="modal-content">
+      <h3>{{ rolActual.id ? 'Editar Rol' : 'Agregar Rol' }}</h3>
+      <input type="text" [(ngModel)]="rolActual.name" placeholder="Nombre del Rol" required />
+      <div class="modal-actions">
+        <button class="save-btn" (click)="guardarRol()">{{ rolActual.id ? 'Actualizar' : 'Guardar' }}</button>
+        <button class="cancel-btn" (click)="cerrarModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,43 @@
+<app-header [usuario]="usuario"></app-header>
+<div class="register-container">
+  <mat-card class="register-card">
+    <h2>Registro</h2>
+    <form (submit)="register(); $event.preventDefault()">
+      
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Usuario</mat-label>
+        <input matInput type="text" [(ngModel)]="user.username" name="username" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" [(ngModel)]="user.email" name="email" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" [(ngModel)]="user.password" name="password" required />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" class="register-button">
+        Registrarse
+      </button>
+    </form>
+
+    <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <p class="login-link">
+      ¿Ya tienes cuenta? <a [routerLink]="['/login']">Inicia sesión</a>
+    </p>
+  </mat-card>
+
+  <!-- Modal de Confirmación -->
+  <div *ngIf="modalVisible" class="modal-overlay">
+    <div class="modal-content">
+      <mat-icon class="modal-icon" [ngClass]="modalType === 'success' ? 'success' : 'error'">
+        {{ modalType === 'success' ? '' : '' }}
+      </mat-icon>
+      <p>{{ modalMessage }}</p>
+    </div>
+  </div>
+</div>

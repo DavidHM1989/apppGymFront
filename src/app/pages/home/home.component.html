@@ -1,0 +1,31 @@
+<header class="header">
+    <h1>
+        <a routerLink="/home" class="home-link">🏋️ Gym System</a>
+    </h1>
+    <div class="user-box">
+        <mat-icon>person</mat-icon>
+        <h3>{{ usuario }}</h3>
+        <button *ngIf="isLoggedIn" (click)="cerrarSesion()">Cerrar Sesión</button>
+        <a *ngIf="!isLoggedIn" routerLink="/login" class="register-btn">Iniciar Sesión</a>
+    </div>
+</header>
+
+<!-- Botón para expandir/cerrar el menú -->
+<button class="menu-toggle" (click)="menuAbierto = !menuAbierto">
+    <mat-icon>{{ menuAbierto ? 'close' : 'menu' }}</mat-icon>
+</button>
+
+<!-- Menú lateral -->
+<nav class="sidebar" [class.abierto]="menuAbierto" *ngIf="isAdmin">
+    <h3>Gestión</h3>
+    <ul>
+        <li><a routerLink="/usuarios" routerLinkActive="active">Usuarios</a></li>
+        <li><a routerLink="/roles" routerLinkActive="active">Roles</a></li>
+    </ul>
+</nav>
+
+<main class="main-content">
+    <ng-container *ngIf="!usuario">
+        <p>¿Aún no tienes cuenta?</p>
+    </ng-container>
+</main>

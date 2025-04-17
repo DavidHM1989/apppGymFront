@@ -1,0 +1,17 @@
+<header class="header">
+  <h1>
+    <a routerLink="/home" class="home-link">🏋️ Gym System</a>
+  </h1> 
+    <div class="user-info">
+      <div class="user-card">
+        <mat-icon>person</mat-icon>
+        <p *ngIf="usuario; else registro">
+          {{ usuario }}
+        </p>
+        <button *ngIf="usuario" (click)="cerrarSesion()">Cerrar Sesión</button>
+        <ng-template #registro>
+          <button routerLink="/register">Regístrate aquí</button>
+        </ng-template>
+      </div>
+    </div>
+  </header>
