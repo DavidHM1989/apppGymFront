@@ -37,7 +37,7 @@ export class UserManagementComponent implements OnInit {
 
   abrirModal(usuario?: any) {
     this.modalAbierto = true;
-    this.usuarioActual = usuario ? { ...usuario } : { username: '', email: '', password: '', rolId: null };
+    this.usuarioActual = usuario ? { ...usuario } : { username: '', email: '', password: '', rolId: null, id: null };
   }
 
   cerrarModal() {
@@ -49,15 +49,17 @@ export class UserManagementComponent implements OnInit {
       username: this.usuarioActual.username,
       email: this.usuarioActual.email,
       password: this.usuarioActual.password,
-      roles: [{ id: this.usuarioActual.rolId }]
+      roles: [{ id: this.usuarioActual.rolId }]  // Asegúrate de enviar el ID del rol
     };
-
+  
+    // Si el id está presente, estamos actualizando el usuario
     if (this.usuarioActual.id) {
       this.userRoleService.editarUsuario(this.usuarioActual.id, usuario).subscribe(() => {
         this.cargarUsuarios();
         this.cerrarModal();
       });
     } else {
+      // Si no hay id, estamos creando un nuevo usuario
       this.userRoleService.agregarUsuario(usuario).subscribe(() => {
         this.cargarUsuarios();
         this.cerrarModal();
@@ -65,19 +67,23 @@ export class UserManagementComponent implements OnInit {
     }
   }
 
-  editarUsuario(usuario: any) {
-    console.log("Usuario antes de editar:", usuario);
-    usuario.rolId = usuario.roles[0]?.id;
-    this.usuarioActual = {
-      id: usuario.id,
-      username: usuario.username,
-      email: usuario.email,
-      password: '', // Opcional: si no se cambia la contraseña
-      rolId: this.obtenerRolId(usuario.roles) // Extrae correctamente el ID del rol
+  editarUsuario(usuario: any): void {
+    const usuarioParaActualizar = {
+      ...usuario,
+      roles: [{ id: usuario.rolId }]  // Enviar el ID del rol correctamente
     };
   
-    console.log("Usuario para edición:", this.usuarioActual);
-    this.modalAbierto = true;
+    // Llamar al servicio para actualizar el usuario con el formato adecuado
+    this.userRoleService.editarUsuario(usuario.id, usuarioParaActualizar).subscribe({
+      next: () => {
+        console.log('Usuario actualizado exitosamente');
+        this.cargarUsuarios();  // Recargar los usuarios después de la actualización
+        this.cerrarModal();  // Cerrar el modal
+      },
+      error: (error) => {
+        console.error('Error al actualizar el usuario:', error);
+      }
+    });
   }
   
   obtenerRolId(roles: any): number {

@@ -18,7 +18,7 @@
         <td>{{ usuario.id }}</td>
         <td>{{ usuario.username }}</td>
         <td>{{ usuario.email }}</td>
-        <td>{{ usuario.roles }}</td>
+        <td>{{ usuario.roles}}</td>
         <td>
           <button (click)="editUsuario(usuario)">Editar</button>
           <button (click)="eliminarUsuario(usuario.id)">Eliminar</button>
@@ -29,17 +29,16 @@
 </div>
 
 <!-- Modal para Agregar/Editar Usuario -->
-<!-- Modal para Agregar/Editar Usuario -->
 <div class="modal" *ngIf="modalAbierto">
   <div class="modal-content">
     <h3>{{ usuarioActual.id ? 'Editar Usuario' : 'Agregar Usuario' }}</h3>
     
     <input type="text" id="username" name="username" [(ngModel)]="usuarioActual.username" placeholder="Nombre de Usuario" required />
     <input type="email" id="email" name="email" [(ngModel)]="usuarioActual.email" placeholder="Correo Electrónico" required />
-    <input type="password" id="password" name="password" [(ngModel)]="usuarioActual.password" placeholder="Contraseña" required />
+    <input type="password" id="password" name="password" [(ngModel)]="usuarioActual.password" placeholder="Contraseña" />
 
     <label for="rol">Rol:</label>
-    <select id="rol" name="rol" [(ngModel)]="usuarioActual.rolId">
+    <select [(ngModel)]="usuarioActual.rolId">
       <option *ngFor="let rol of roles" [value]="rol.id">{{ rol.name }}</option>
     </select>
 
